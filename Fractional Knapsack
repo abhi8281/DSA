@@ -1,0 +1,289 @@
+#include <stdio.h>
+#define n 5
+
+int capacity = 15;
+
+float Basedprofit(float[],float[],float[]);
+float weightprofit(float[],float[],float[]);
+float PWprofit(float[],float[],float[]);
+
+
+int main()
+{
+    int p[10],w[10],x[10];
+    
+    printf("--------------------------------------------------------");
+    printf("\nEnter the Profits : ");
+  
+    for(int i=0;i<n;i++)
+    {
+        scanf("%f",&p[i]);
+    }
+    
+    printf("\nEnter the Weights : ");
+    for(int i=0;i<n;i++)
+    {
+        scanf("%f",&w[i]);
+    }
+    
+    printf("\n--------------------------------------------------------\n");
+
+    for(int i=0;i<n;i++)
+    {
+        x[i]=0;
+    }
+    
+    float tp =  Basedprofit(p,w,x);
+    float tp1 = weightprofit(p,w,x); 
+    float tp2 = PWprofit(p,w,x);
+    
+    printf("\n--------------------------------------------------------\n");
+    
+    printf("Maximum profit based on profit : %.4f\n",tp);
+    printf("Maximum profit based on Weight : %.4f\n",tp1);
+    printf("Maximum profit based on ratio : %.4f\n",tp2);
+
+    printf("\n--------------------------------------------------------\n");
+
+return 0;
+}
+
+
+float Basedprofit(float p[],float w[],float x[])
+{
+    float temp,W=0,tp=0;
+    int k=0;
+    
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n-1;j++)
+        {
+            if(p[j]<p[j+1])
+            {
+                temp=p[j];
+                p[j]=p[j+1];
+                p[j+1]=temp;
+                temp=w[j];
+                w[j]=w[j+1];
+                w[j+1]=temp;
+            }
+        }
+    }
+    
+    
+    printf("\n--------------------------------------------------------\n");
+    
+    printf("According to Profit\n");
+    
+    printf("Profits : ");
+    for(int i=0;i<n;i++)
+    {
+        printf("\t%.0f",p[i]);
+    }
+    
+    printf("\nWeights : ");
+    for(int i=0;i<n;i++)
+    {
+        printf("\t%.0f",w[i]);
+    }
+    
+    printf("\n--------------------------------------------------------\n");
+    
+/*The while loop is used to determine the optimal selection of items based on their weights (w) while 
+ensuring that the total weight (W) does not exceed the given capacity (capacity).
+
+Here's a breakdown of the logic inside the loop:
+
+if (W + w[k] <= capacity): This condition checks if adding the weight of the current item w[k] to the 
+total weight W will not exceed the capacity. If it doesn't exceed, it means the item can be selected.
+
+x[k] = 1;: Sets the corresponding selection flag x[k] to 1, indicating that the item is selected.
+W = W + w[k];: Adds the weight of the selected item to the total weight W.
+k++;: Increments the index k to move on to the next item.
+else: This block is executed when adding the weight of the current item would exceed the capacity. 
+
+In this case, a fractional selection of the item is made based on the remaining capacity.
+
+x[k] = (capacity - W) / w[k];: Calculates the fractional selection of the item by dividing the 
+remaining capacity (capacity - W) by the weight of the current item (w[k]).
+break;:
+Terminates the loop since the remaining capacity has been fully utilized.
+
+This loop iterates over the items (controlled by k) and makes selections based on their weights,
+ensuring the capacity constraint is met.
+The x array stores the selection flags, where x[k] represents the selection status of item k.
+    
+    
+    
+*/    
+    
+    
+    while(k<n)
+    {
+        if(W+w[k]<=capacity)
+        {
+            x[k]=1;
+            W=W+w[k];
+            k++;
+        }
+        else 
+        {
+            x[k]=(capacity-W)/w[k];
+            break;
+        }
+        
+    }
+    for(int i=0;i<n;i++)
+    {
+        tp = tp + p[i]*x[i];
+    }
+    return tp;
+
+}
+
+
+
+
+float weightprofit(float p[],float w[],float x[])
+{
+    float temp,W=0,tp1=0;
+    int k=0;
+    
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n-1;j++)
+        {
+            if(w[j]>w[j+1])
+            {
+                temp=w[j];
+                w[j]=w[j+1];
+                w[j+1]=temp;
+                temp=p[j];
+                p[j]=p[j+1];
+                p[j+1]=temp;
+            }
+        }
+    }
+    
+    
+    printf("\n--------------------------------------------------------\n");
+    
+    printf("According to Weight\n");
+    
+    printf("Profits : ");
+    for(int i=0;i<n;i++)
+    {
+        printf("\t%.0f",p[i]);
+    }
+    
+    printf("\nWeights : ");
+    for(int i=0;i<n;i++)
+    {
+        printf("\t%.0f",w[i]);
+    }
+    
+    printf("\n--------------------------------------------------------\n");
+
+
+   while(k<n)
+    {
+        if(W+w[k]<=capacity)
+        {
+            x[k]=1;
+            W=W+w[k];
+            k++;
+        }
+        else 
+        {
+            x[k]=(capacity-W)/w[k];
+            break;
+        }
+        
+    }
+    for(int i=0;i<n;i++)
+    {
+        tp1 = tp1 + p[i]*x[i];
+    }
+    return tp1;
+}
+
+
+
+float PWprofit(float p[],float w[],float x[])
+{
+    float pw[10];
+    for(int i=0;i<n;i++)
+    {
+        pw[i]=p[i]/w[i];
+    }
+    float temp,tp2=0,W=0;
+    int k=0;
+    
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n-1;j++)
+        {
+            if(pw[j]<pw[j+1])
+            {
+                temp=pw[j];
+                pw[j]=pw[j+1];
+                pw[j+1]=temp;
+                temp=w[j];
+                w[j]=w[j+1];
+                w[j+1]=temp;
+                temp=p[j];
+                p[j]=p[j+1];
+                p[j+1]=temp;
+            }
+        }
+    }
+    
+    
+    printf("\n--------------------------------------------------------\n");
+    
+    printf("According to Weight\n");
+    
+    printf("Profits : ");
+    for(int i=0;i<n;i++)
+    {
+        printf("\t%.0f",p[i]);
+    }
+    
+    printf("\nWeights : ");
+    for(int i=0;i<n;i++)
+    {
+        printf("\t%0.f",w[i]);
+    }
+    
+    printf("\nRatio : ");
+    for(int i=0;i<n;i++)
+    {
+        printf("\t%.4f",pw[i]);
+    }
+    
+    printf("\n--------------------------------------------------------\n");
+
+
+   while(k<n)
+    {
+        if(W+w[k]<=capacity)
+        {
+            x[k]=1;
+            W=W+w[k];
+            k++;
+        }
+        else 
+        {
+            x[k]=(capacity-W)/w[k];
+            break;
+        }
+        
+    }
+    for(int i=0;i<n;i++)
+    {
+        tp2 = tp2 + p[i]*x[i];
+    }
+    return tp2;
+}
+
+    
