@@ -10,7 +10,7 @@ float PWprofit(float[],float[],float[]);
 
 int main()
 {
-    int p[10],w[10],x[10];
+    float p[10],w[10],x[10];
     
     printf("--------------------------------------------------------");
     printf("\nEnter the Profits : ");
@@ -252,7 +252,7 @@ float PWprofit(float p[],float w[],float x[])
     printf("\nWeights : ");
     for(int i=0;i<n;i++)
     {
-        printf("\t%0.f",w[i]);
+        printf("\t%.0f",w[i]);
     }
     
     printf("\nRatio : ");
