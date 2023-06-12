@@ -1,0 +1,69 @@
+#include <stdio.h>
+
+int main()
+{
+    int target,n,i;
+    
+    printf("Enter the size of Array : ");
+    scanf("%d",&n);
+    
+    printf("\nEnter Target : ");
+    scanf("%d",&target);
+    
+    int A[n],S[n],R[n],NSR[n];
+    
+    printf("\nEnter the Candidates : ");
+    for(int i=0;i<n;i++)
+    {
+        scanf("%d",&A[i]);
+    }
+    
+    int val=0,s=0,r=0,nsr=0;
+    for(i=0;i<n;i++)
+    
+    {
+        if(val+A[i]<=target)
+        {
+            val = val + A[i];
+            S[s]=A[i];
+            s++;
+        
+        if(val==target)
+        
+            break;
+        }
+        else
+        {
+            R[r]=A[i];
+            r++;
+        }
+    }
+    
+    int j;
+    for(j=i+1; j<n ;j++)
+    {
+        NSR[nsr]=A[j];
+        nsr++;
+    }
+    
+    printf("\nSelected Candidates : ");
+    for(int i=0;i<s;i++)
+    {
+        printf("%d ",S[i]);
+    }
+   
+    printf("\nSelected But Rejected Candidates : ");
+    for(int i=0;i<r;i++)
+    {
+        printf("%d ",R[i]);
+    }
+    
+    printf("\nNeither Selected Nor Rejected Candidates : ");
+    for(int i=0;i<nsr;i++)
+    {
+        printf("%d ",NSR[i]);
+    }
+   
+
+return 0;
+}
