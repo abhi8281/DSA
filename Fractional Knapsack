@@ -241,7 +241,7 @@ float PWprofit(float p[],float w[],float x[])
     
     printf("\n--------------------------------------------------------\n");
     
-    printf("According to Weight\n");
+    printf("According to Ratio\n");
     
     printf("Profits : ");
     for(int i=0;i<n;i++)
